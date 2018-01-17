@@ -40,6 +40,8 @@ void ${classname}_func()
 }
 """
 
+os.makedirs('projects/include')
+
 for adir in app_dirs:
     for sdir in system_dirs:
         include_path = os.path.join(top_dir, adir, 'include', sdir)
@@ -69,9 +71,12 @@ for adir in app_dirs:
 
             source_content = Template(source_template).substitute(headerfile=header_filename, classname=classname, includes=includes);
 
-            header_file = open(os.path.join(include_path, header_filename), 'w')
+            header_full_path = os.path.join(include_path, header_filename)
+            header_file = open(header_full_path, 'w')
             header_file.write(header_content)
             header_file.close()
+
+            os.symlink(os.path.abspath(header_full_path), os.path.join('projects/include', header_filename))
 
             source_file = open(os.path.join(source_path, source_filename), 'w')
             source_file.write(source_content)

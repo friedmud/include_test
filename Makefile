@@ -1,4 +1,5 @@
-include_dirs := $(shell find projects/*/include -type d)
+#include_dirs := $(shell find projects/*/include -type d)
+include_dirs := $(realpath projects/include)
 include_flags := $(foreach i, $(include_dirs), -I$(i))
 
 CPPFLAGS = -I/opt/moose/mpich-3.2/clang-5.0.0/include -std=c++14 $(include_flags) -MMD -MP -MF $@.d -MT $@
