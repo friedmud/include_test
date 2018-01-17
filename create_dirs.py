@@ -6,6 +6,7 @@ num_apps = 100
 num_systems = 30
 num_files = 1
 num_includes = 5
+num_header_includes = 2
 
 top_dir = 'projects'
 
@@ -16,6 +17,8 @@ system_dirs = ['system' + str(i) for i in xrange(num_systems)]
 
 header_template = """#ifndef ${classname}_h
 #define ${classname}_h
+
+$includes
 
 class $classname
 {
@@ -54,11 +57,15 @@ for adir in app_dirs:
             header_filename = classname + '.h'
             source_filename = classname + '.C'
 
+            num_header_include = randint(0,num_header_includes)
+
+            random_header_includes = ['#include"' + 'app' + str(randint(0, num_apps-1)) + 'system' + str(randint(0, num_systems-1)) + 'class' + str(randint(0, num_files-1)) + '.h"' for i in xrange(num_header_include)]
             random_includes = ['#include"' + 'app' + str(randint(0, num_apps-1)) + 'system' + str(randint(0, num_systems-1)) + 'class' + str(randint(0, num_files-1)) + '.h"' for i in xrange(num_includes)]
 
+            header_includes = '\n'.join(random_header_includes)
             includes = '\n'.join(random_includes)
 
-            header_content = Template(header_template).substitute(classname=classname)
+            header_content = Template(header_template).substitute(classname=classname, includes=header_includes)
 
             source_content = Template(source_template).substitute(headerfile=header_filename, classname=classname, includes=includes);
 
