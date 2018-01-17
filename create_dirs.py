@@ -2,9 +2,9 @@ import os
 from string import Template
 from random import randint
 
-num_apps = 10
+num_apps = 100
 num_systems = 30
-num_files = 20
+num_files = 1
 num_includes = 5
 
 top_dir = 'projects'
